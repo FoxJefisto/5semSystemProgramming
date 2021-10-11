@@ -1,0 +1,3 @@
+﻿  Source.cpp
+D:\VisualProjects\win32\laba2\laba2\Source.cpp(82,10): warning C4101: currentArea: неиспользованная локальная переменная
+  laba2.vcxproj -> D:\VisualProjects\win32\laba2\Debug\laba2.exe
