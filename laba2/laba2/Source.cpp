@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	wc.lpszMenuName = NULL;
+	wc.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	wc.lpszClassName = szClassName;
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	// Регистрируем класс окна
@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//Создаем основное окно приложения
 	hMainWnd = CreateWindow(
-		szClassName, L"A Hello1 Application", WS_OVERLAPPEDWINDOW,
+		szClassName, L"Window1", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, iWIDTH, iHEIGHT,
 		(HWND)NULL, (HMENU)NULL,
 		(HINSTANCE)hInstance, NULL
@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hEdit1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"EDIT", L"Ввод", WS_VISIBLE | WS_CHILD,
 		60, 30, 60, 25, hMainWnd, (HMENU)ID_EDT1, hInstance, NULL);
 	hStc1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"Вывод", WS_VISIBLE | WS_CHILD,
-		245, 30, 120, 25, hMainWnd, (HMENU)ID_STC1, hInstance, NULL);
+		245, 30, 180, 25, hMainWnd, (HMENU)ID_STC1, hInstance, NULL);
 
 	//Показываем наше окно
 	ShowWindow(hMainWnd, nCmdShow);
@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR str[100] = L"", sX[50] = L"", sY[50] = L"";
+	TCHAR str[100] = L"", sX[50] = L"", sY[50] = L"", ev[100] = L"";;
 	int num;
 	LRESULT currentArea;
 	WORD x, y;
@@ -108,7 +108,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 			// > Третья кнопка
 		case ID_BTN3:
-			TCHAR  ev[100] = L"";
 			wcscat_s(str, L"WM_LBUTTONDBLCLK: ");
 			_itow_s(events[0], ev, 10);
 			wcscat_s(str, ev);
@@ -123,11 +122,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			wcscat_s(str, ev);
 			MessageBox(hWnd, str, L"Подсчет событий", MB_OK);
 			break;
+			// > Изменение размера окна по умолчанию
+		case IDM_RESIZE_WINDOW:
+			MoveWindow(hWnd, 0, 0, 600, 600, true);
+			SetWindowText(hStc1, L"IDM_MOVE_WINDOW");
+			break;
+			// > Выход
+		case IDM_EXIT:
+			PostMessage(hWnd, WM_CLOSE, 0, 0);
+			break;
 		}
 		break;
 
 	case WM_RBUTTONDOWN:
-		SendMessageW(hWnd, WM_NCHITTEST, wParam, lParam);
 		x = LOWORD(lParam);
 		y = HIWORD(lParam);
 		_itow_s(x, sX, 10);

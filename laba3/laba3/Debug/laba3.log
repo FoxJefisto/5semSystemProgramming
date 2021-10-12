@@ -1,0 +1,5 @@
+﻿  Source.cpp
+D:\VisualProjects\win32\laba3\laba3\Source.cpp(106,14): warning C4101: ps: неиспользованная локальная переменная
+D:\VisualProjects\win32\laba3\laba3\Source.cpp(105,6): warning C4101: hDC: неиспользованная локальная переменная
+D:\VisualProjects\win32\laba3\laba3\Source.cpp(107,7): warning C4101: rect: неиспользованная локальная переменная
+  laba3.vcxproj -> D:\VisualProjects\win32\laba3\Debug\laba3.exe
