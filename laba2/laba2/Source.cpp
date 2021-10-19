@@ -7,6 +7,9 @@ HWND hStc1;
 HWND hBtn1;
 HWND hBtn2;
 HWND hBtn3;
+POINT pt1;
+int iWIDTH = 600;
+int iHEIGHT = 400;
 
 int events[] = { 0,0,0,0 };
 
@@ -17,8 +20,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	TCHAR szClassName[] = L"MyClass";
 	MSG msg;
 	WNDCLASSEX wc;
-	int iWIDTH = 600;
-	int iHEIGHT = 400;
 	//Заполняем структуру класса окна
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
@@ -150,7 +151,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_LBUTTONDOWN:
 		events[1]++;
-		SendMessage(hWnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
+		pt1.x = LOWORD(lParam);
+		pt1.y = HIWORD(lParam);
+		break;
+	case WM_MOUSEMOVE:
+		if (LOWORD(wParam) == MK_LBUTTON) {
+			POINT pt2, mv;
+			pt2.x = LOWORD(lParam);
+			pt2.y = HIWORD(lParam);
+			RECT rect;
+			GetWindowRect(hWnd, &rect);
+			mv.x = rect.left + pt2.x - pt1.x;
+			mv.y = rect.top + pt2.y - pt1.y;
+			MoveWindow(hWnd, mv.x, mv.y, iWIDTH, iHEIGHT, 1);
+		}
 		break;
 	case WM_LBUTTONUP:
 		events[2]++;

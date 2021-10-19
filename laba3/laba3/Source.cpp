@@ -23,6 +23,8 @@ HWND hEdit1,
 	hWnd2,
 	hWnd3;
 
+POINT pt1;
+
 HWND hExternalBtn1;
 
 
@@ -79,10 +81,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		130, 80, 25, hMainWnd, (HMENU)ID_BTN6, hInstance, NULL);
 	hBtn7 = CreateWindow(L"BUTTON", L"Кнопка7", WS_VISIBLE | WS_CHILD, 60,
 		170, 80, 25, hMainWnd, (HMENU)ID_BTN7, hInstance, NULL);
-	hBtn8 = CreateWindow(L"BUTTON", L"Кнопка8", WS_VISIBLE | WS_CHILD, 180,
+	hBtn8 = CreateWindow(L"BUTTON", L"Кнопка8", WS_VISIBLE | WS_CHILD, 300,
 		170, 80, 25, hMainWnd, (HMENU)ID_BTN8, hInstance, NULL);
-	hBtn9 = CreateWindow(L"BUTTON", L"Кнопка9", WS_VISIBLE | WS_CHILD, 300,
-		170, 80, 25, hMainWnd, (HMENU)ID_BTN9, hInstance, NULL);
 	hEdit1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"EDIT", L"Ввод", WS_VISIBLE | WS_CHILD,
 		60, 30, 120, 25, hMainWnd, (HMENU)ID_EDT1, hInstance, NULL);
 	hStc1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"Вывод", WS_VISIBLE | WS_CHILD,
@@ -174,18 +174,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SendMessageW(hWnd1, WM_RBUTTONDOWN, NULL, NULL);
 			}
 		case ID_BTN7:
-			break;
-		case ID_BTN8:
 			hWnd1 = FindWindow(NULL, L"Window1");
 			if (hWnd1) {
-				GetWindowText(hEdit1, str, 50);
-				SetWindowText(hWnd1, str);
+				EnumChildWindows(hWnd1, EnumChildProc, (LPARAM)&cnt);
 			}
 			break;
-		case ID_BTN9:
+		case ID_BTN8:
 			EnumWindows(EnumWndProc, (LPARAM)& cnt);
+			break;
 		}
 		break;
+	case WM_RBUTTONDOWN:
+		hWnd1 = FindWindow(NULL, L"Window1");
+		if (hWnd1) {
+			pt1.x = LOWORD(lParam);
+			pt1.y = HIWORD(lParam);
+			ScreenToClient(hWnd1, &pt1);
+			SendMessage(hWnd1, WM_LBUTTONDOWN, wParam, MAKELONG(pt1.x, pt1.y));
+		}
+		break;
+	case WM_MOUSEMOVE:
+		if (LOWORD(wParam) == MK_RBUTTON){
+			hWnd1 = FindWindow(NULL, L"Window1");
+			if (hWnd1) {
+				POINT pt2;
+				pt2.x = LOWORD(lParam);
+				pt2.y = HIWORD(lParam);
+				ScreenToClient(hWnd1, &pt2);
+				SendMessage(hWnd1, WM_MOUSEMOVE, MK_LBUTTON, MAKELONG(pt2.x, pt2.y));
+			}
+		}
+			break;
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
 		break;
@@ -220,6 +239,6 @@ BOOL CALLBACK EnumChildProc(HWND hWnd, LPARAM lParam)
 	int* k = (int*)lParam;
 	_itow_s(++(*k), n, 10);
 	wcscat_s(str, n);
-	SetWindowText(hWnd, str);
+	SendMessage(hWnd, WM_SETTEXT, 0, (LPARAM) str);
 	return TRUE;
 }
