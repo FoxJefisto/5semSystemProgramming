@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//Создаем основное окно приложения
 	hMainWnd = CreateWindow(
-		szClassName, L"A Hello1 Application", WS_OVERLAPPEDWINDOW,
+		szClassName, L"Laba3", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, iWIDTH, iHEIGHT,
 		(HWND)NULL, (HMENU)NULL,
 		(HINSTANCE)hInstance, NULL);
@@ -163,24 +163,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessageW(hExternalBtn1, WM_LBUTTONUP, NULL, NULL);
 				}
 			}
+			SetWindowText(hStc1, L"4btn");
 			break;
 		case ID_BTN5:
 			hWnd1 = FindWindow(NULL, L"Window1");
 			if(hWnd1)
 				SendMessageW(hWnd1, WM_COMMAND, IDM_RESIZE_WINDOW, NULL);
+			SetWindowText(hStc1, L"5btn");
+			break;
 		case ID_BTN6:
 			hWnd1 = FindWindow(NULL, L"Window1");
 			if (hWnd1) {
 				SendMessageW(hWnd1, WM_RBUTTONDOWN, NULL, NULL);
 			}
+			SetWindowText(hStc1, L"6btn");
+			break;
 		case ID_BTN7:
 			hWnd1 = FindWindow(NULL, L"Window1");
 			if (hWnd1) {
 				EnumChildWindows(hWnd1, EnumChildProc, (LPARAM)&cnt);
 			}
+			SetWindowText(hStc1, L"7btn");
 			break;
 		case ID_BTN8:
 			EnumWindows(EnumWndProc, (LPARAM)& cnt);
+			SetWindowText(hStc1, L"8btn");
 			break;
 		}
 		break;
