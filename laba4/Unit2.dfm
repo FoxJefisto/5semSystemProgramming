@@ -11,17 +11,27 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnPaint = FormPaint
   PixelsPerInch = 96
   TextHeight = 13
   object PB1: TPaintBox
     Left = 40
     Top = 32
-    Width = 457
-    Height = 377
+    Width = 400
+    Height = 350
+  end
+  object PB2: TPaintBox
+    Left = 152
+    Top = 432
+    Width = 75
+    Height = 25
+    OnMouseLeave = PB2MouseLeave
+    OnMouseMove = PB2MouseMove
+    OnPaint = PB2Paint
   end
   object Button1: TButton
-    Left = 72
-    Top = 440
+    Left = 40
+    Top = 432
     Width = 75
     Height = 25
     Caption = #1050#1085#1086#1087#1082#1072' 1'
