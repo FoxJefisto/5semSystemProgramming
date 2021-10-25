@@ -8,22 +8,10 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
-TRect btn2 {185 ,373, 270, 400};
-enum Display{
-		NOTHING,
-		PICTURE,
-		TEXT,
-		RCFIGURE,
-		FILLRC,
-		CIRCLE
-	};
-Display dsp = NOTHING;
-enum BtnStatus{
-		NOTACTIVE,
-		HOVERED,
-		PRESSED
-	};
-BtnStatus btnSt = NOTACTIVE;
+bool picture1;
+bool picture2;
+bool isBtn2Press;
+bool isBtn2MouseMove;
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
@@ -85,88 +73,80 @@ void DrawPicture1()
 	Form1->Canvas->Rectangle(157,288,185,293);
 }
 //---------------------------------------------------------------------------
+void DrawPicture2(){
+
+
+}
+//---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-    dsp = PICTURE;
+	picture1 = true;
 	Form1->Refresh();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::FormPaint(TObject *Sender)
 {
-	switch(dsp){
-		case PICTURE:
-			DrawPicture1();
-			break;
-        case TEXT:
-
-			break;
-		case RCFIGURE:
-
-			break;
-		case FILLRC:
-
-			break;
-		case CIRCLE:
-
-			break;
-		case NOTHING:
-			break;
+	if (picture1){
+		DrawPicture1();
 	}
-	Form1->Canvas->Pen->Width = 1;
-	Form1->Canvas->Pen->Color = (TColor) RGB(0,120,215);
-	switch(btnSt){
-		case NOTACTIVE:
-			Form1->Canvas->Brush->Color = (TColor) RGB(225,225,225);
-			Form1->Canvas->Pen->Width = 2;
-			break;
-		case HOVERED:
-			Form1->Canvas->Brush->Color = (TColor) RGB(229,241,251);
-			break;
-		case PRESSED:
-			Form1->Canvas->Brush->Color = (TColor) RGB(204,228,247);
-			break;
-	}
-	Form1->Canvas->Rectangle(btn2);
-	Form1->Canvas->Font->Size = 8;
-	Form1->Canvas->TextOut(201,379,"Êíîïêà 2");
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y)
-
+void __fastcall TForm1::PB2Paint(TObject *Sender)
 {
-	if (btn2.Contains(TPoint(X,Y))){
-		btnSt = HOVERED;
-		::InvalidateRect(Form1->Handle, &btn2, false);
+	PB2->Canvas->Pen->Width = 1;
+	PB2->Canvas->Pen->Color = (TColor) RGB(0,120,215);
+	if(!isBtn2MouseMove){
+		PB2->Canvas->Brush->Color = (TColor) RGB(225,225,225);
+		PB2->Canvas->Pen->Width = 3;
 	}
 	else
-		if(btnSt == HOVERED){
-		btnSt = NOTACTIVE;
-		::InvalidateRect(Form1->Handle, &btn2, false);
-		}
-	
-
+		PB2->Canvas->Brush->Color = (TColor) RGB(229,241,251);
+	if(isBtn2Press)
+		PB2->Canvas->Brush->Color = (TColor) RGB(204,228,247);
+	PB2->Canvas->Rectangle(0,0, PB2->Width, PB2->Height);
+	PB2->Canvas->Font->Size = 9;
+	PB2->Canvas->TextOut(16,6,"Êíîïêà 2");
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y)
+void __fastcall TForm1::PB2MouseMove(TObject *Sender, TShiftState Shift, int X, int Y)
+
 {
-	if (btn2.Contains(TPoint(X,Y))){
-		btnSt = PRESSED;
-		::InvalidateRect(Form1->Handle, &btn2, false);
-	}
+	isBtn2MouseMove = true;
+	PB2->Refresh();
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y)
+void __fastcall TForm1::PB2MouseLeave(TObject *Sender)
 {
-	if (btn2.Contains(TPoint(X,Y))){
-		btnSt = HOVERED;
-		::InvalidateRect(Form1->Handle, &btn2, false);
-	}
+	isBtn2MouseMove = false;
+	PB2->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PB2MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y)
+{
+	isBtn2Press = true;
+    PB2->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PB2MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y)
+{
+	isBtn2Press = false;
+	PB2->Refresh();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::PB2Click(TObject *Sender)
+{
+	picture2 = true;
+	picture1 = false;
 }
 //---------------------------------------------------------------------------
 

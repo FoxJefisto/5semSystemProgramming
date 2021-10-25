@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 475
-  ClientWidth = 475
+  ClientHeight = 361
+  ClientWidth = 314
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,17 +14,12 @@ object Form1: TForm1
   OnPaint = FormPaint
   PixelsPerInch = 96
   TextHeight = 13
-  object PB1: TPaintBox
-    Left = 40
-    Top = 32
-    Width = 400
-    Height = 350
-  end
   object PB2: TPaintBox
-    Left = 152
-    Top = 432
+    Left = 184
+    Top = 304
     Width = 75
     Height = 25
+    OnClick = PB2Click
     OnMouseDown = PB2MouseDown
     OnMouseLeave = PB2MouseLeave
     OnMouseMove = PB2MouseMove
@@ -33,7 +28,7 @@ object Form1: TForm1
   end
   object Button1: TButton
     Left = 40
-    Top = 432
+    Top = 304
     Width = 75
     Height = 25
     Caption = #1050#1085#1086#1087#1082#1072' 1'
