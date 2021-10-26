@@ -1,0 +1,172 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit2.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+TRect btn2 {185 ,373, 270, 400};
+enum Display{
+		NOTHING,
+		PICTURE,
+		TEXT,
+		RCFIGURE,
+		FILLRC,
+		CIRCLE
+	};
+Display dsp = NOTHING;
+enum BtnStatus{
+		NOTACTIVE,
+		HOVERED,
+		PRESSED
+	};
+BtnStatus btnSt = NOTACTIVE;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+
+}
+//---------------------------------------------------------------------------
+void DrawPicture1()
+{
+	Form1->Canvas->Pen->Width = 1;
+	// Рисование темно синего фона
+	Form1->Canvas->Brush->Color = (TColor)RGB(49,67,109);
+	Form1->Canvas->Pen->Color = (TColor)RGB(49,67,109);
+	Form1->Canvas->Rectangle(0,0,400,350);
+	// Рисование пола
+	Form1->Canvas->Brush->Color = (TColor)RGB(163,152,65);
+	Form1->Canvas->Pen->Color = (TColor)RGB(163,152,65);
+	Form1->Canvas->Rectangle(0,300,400,350);
+	// Рисование елки
+	Form1->Canvas->Brush->Color = clGreen;
+	Form1->Canvas->Pen->Color = clGreen;
+	TPoint p[] =
+	{ TPoint(195,125), TPoint(170,125), TPoint(210,190),
+	TPoint(190,190),TPoint(235,265),
+	TPoint(30,265),TPoint(75,190),TPoint(50,190),
+	TPoint(90,125),TPoint(70,125),TPoint(133,23)};
+	Form1->Canvas->Polygon(p,10);
+	// Рисование ствола ёлки
+	Form1->Canvas->Brush->Color = (TColor)RGB(119,67,20);
+	Form1->Canvas->Pen->Color = (TColor)RGB(119,67,20);
+	Form1->Canvas->Rectangle(113,266,150,300);
+	// Рисование елочных игрушек
+	Form1->Canvas->Brush->Color = (TColor)RGB(225,58,67);
+	Form1->Canvas->Pen->Color = (TColor)RGB(225,58,67);
+	Form1->Canvas->Ellipse(112,211,138,235);
+	Form1->Canvas->Ellipse(138,157,163,181);
+	Form1->Canvas->Ellipse(105,83,129,106);
+	Form1->Canvas->Brush->Color = (TColor)RGB(68,168,185);
+	Form1->Canvas->Pen->Color = (TColor)RGB(68,168,185);
+	Form1->Canvas->Ellipse(140,110,165,134);
+	Form1->Canvas->Ellipse(90,153,115,177);
+	Form1->Canvas->Brush->Color = (TColor)RGB(247,223,119);
+	Form1->Canvas->Pen->Color = (TColor)RGB(247,223,119);
+	Form1->Canvas->Ellipse(60,235,86,260);
+	Form1->Canvas->Ellipse(173,228,199,252);
+	// Рисование корабок с подарками
+	Form1->Canvas->Brush->Color = (TColor)RGB(254,51,123);
+	Form1->Canvas->Pen->Color = (TColor)RGB(254,51,123);
+	Form1->Canvas->Rectangle(157,278,185,300);
+	Form1->Canvas->Brush->Color = (TColor)RGB(1,255,255);
+	Form1->Canvas->Pen->Color = (TColor)RGB(1,255,255);
+	Form1->Canvas->Rectangle(68,278,94,300);
+	// Рисование ленты к подаркам
+	Form1->Canvas->Brush->Color = (TColor)RGB(231,172,0);
+	Form1->Canvas->Pen->Color = (TColor)RGB(231,172,0);
+	Form1->Canvas->Rectangle(80,278,85,300);
+	Form1->Canvas->Rectangle(68,286,94,290);
+	Form1->Canvas->Rectangle(170,278,175,300);
+	Form1->Canvas->Rectangle(157,288,185,293);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+    dsp = PICTURE;
+	Form1->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormPaint(TObject *Sender)
+{
+	switch(dsp){
+		case PICTURE:
+			DrawPicture1();
+			break;
+        case TEXT:
+
+			break;
+		case RCFIGURE:
+
+			break;
+		case FILLRC:
+
+			break;
+		case CIRCLE:
+
+			break;
+		case NOTHING:
+			break;
+	}
+	Form1->Canvas->Pen->Width = 1;
+	Form1->Canvas->Pen->Color = (TColor) RGB(0,120,215);
+	switch(btnSt){
+		case NOTACTIVE:
+			Form1->Canvas->Brush->Color = (TColor) RGB(225,225,225);
+			Form1->Canvas->Pen->Width = 2;
+			break;
+		case HOVERED:
+			Form1->Canvas->Brush->Color = (TColor) RGB(229,241,251);
+			break;
+		case PRESSED:
+			Form1->Canvas->Brush->Color = (TColor) RGB(204,228,247);
+			break;
+	}
+	Form1->Canvas->Rectangle(btn2);
+	Form1->Canvas->Font->Size = 8;
+	Form1->Canvas->TextOut(201,379,"Кнопка 2");
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y)
+
+{
+	if (btn2.Contains(TPoint(X,Y))){
+		btnSt = HOVERED;
+		::InvalidateRect(Form1->Handle, &btn2, false);
+	}
+	else
+		if(btnSt == HOVERED){
+		btnSt = NOTACTIVE;
+		::InvalidateRect(Form1->Handle, &btn2, false);
+		}
+	
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+	if (btn2.Contains(TPoint(X,Y))){
+		btnSt = PRESSED;
+		::InvalidateRect(Form1->Handle, &btn2, false);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+	if (btn2.Contains(TPoint(X,Y))){
+		btnSt = HOVERED;
+		::InvalidateRect(Form1->Handle, &btn2, false);
+	}
+}
+//---------------------------------------------------------------------------
+

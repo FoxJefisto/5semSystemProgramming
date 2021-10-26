@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 361
-  ClientWidth = 314
+  ClientHeight = 394
+  ClientWidth = 375
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,49 @@ object Form1: TForm1
     Top = 297
     Width = 75
     Height = 25
-    Caption = #1050#1085#1086#1087#1082#1072' 1'
+    Caption = 'Button1'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
     OnClick = Button1Click
+  end
+  object Button3: TButton
+    Left = 40
+    Top = 344
+    Width = 75
+    Height = 25
+    Caption = 'Button3'
+    TabOrder = 1
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 144
+    Top = 344
+    Width = 75
+    Height = 25
+    Caption = 'Button4'
+    TabOrder = 2
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 268
+    Top = 297
+    Width = 75
+    Height = 25
+    Caption = 'Button5'
+    TabOrder = 3
+    OnClick = Button5Click
+  end
+  object CheckBox1: TCheckBox
+    Left = 268
+    Top = 348
+    Width = 75
+    Height = 17
+    Caption = 'MoveCircle'
+    TabOrder = 4
   end
 end
